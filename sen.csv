@@ -1,4 +1,4 @@
-T1,[p2],send,1
-T4,[p2],send,1
-T2,[p3],send,3
-T4,[p3],send,2
+1,[p2],send,1
+4,[p2],send,1
+2,[p3],send,3
+4,[p3],send,2
