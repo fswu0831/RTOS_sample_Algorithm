@@ -140,7 +140,7 @@ def expand_table(Qr,race_set,table,t_way):
                                     if Qr[0][Qr[0].ID==list(table.columns)[l-1]].iloc[0].ID in cs.cstruct(Qr,Qs,Qr[0][Qr[0].ID==list(table.columns)[k]].iloc[0],[],0,0):
                                         table.at[len(table)-1,list(table.columns)[k]]=-1
                                         break
-                                        #制御構造構造
+                                        #制御構造
                         ##-1は既に埋まっている
                         table=table.fillna(0)
     return table

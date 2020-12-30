@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 
-def hello():
-    print("hello")
 
 def factorial(n):
     sum=1
@@ -38,6 +36,7 @@ def SVQR(Qr,Qs):
                 log=pd.DataFrame({})
                 for loop in range(len(Qr)):
                     Q=pd.concat([Qs[loop],Qr[loop]]).sort_index()
+
                     array=Q[((Q.Thread==T[i]) & (Q.Port==V[l])) | ((Q.Thread==T[j]) &(Q.Port==V[l]))].Thread
                     array=array.reset_index()
                     
@@ -136,8 +135,7 @@ def Plnv(Qr,Qs):
                         temp=Q[loop][df.iloc[j].name+1:df.iloc[j+1].name]
                         temp=temp[temp.Port==V[l]]
                         if len(temp)==0:
-                            print(loop)
-                            display(df)
+
                             array.append(0)
                         for k in range(len(temp)):
                             array.append(temp.iloc[k].KEY)

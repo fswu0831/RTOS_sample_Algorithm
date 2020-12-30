@@ -92,4 +92,4 @@ def create_new_testcase(number,check_digit,Qr,Qs,table,race_set,Qr_unique,Qs_uni
                     else:
                         pass
 
-        return {'recv':Qr,'send':Qs}
+    return {'recv':Qr,'send':Qs}

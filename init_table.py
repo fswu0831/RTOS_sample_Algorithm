@@ -8,10 +8,10 @@ def delete_diff(Qr,Qs):
         Qs[0]=Qs[0][:len(Qr[0])]
     return
     
-def init(table):
+def init(table,string):
     table['Thread']=table['Thread'].map(lambda x:'T'+str(x))
     r_list=list(range(1,len(table)+1))
-    r_list=list(map(lambda x:'r'+str(x),r_list)) #['r1', 'r2', 'r3', 'r4']
+    r_list=list(map(lambda x:string+str(x),r_list)) #['r1', 'r2', 'r3', 'r4']
     table.insert(0,'ID',r_list) #attach the name of event
     return table
 
