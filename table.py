@@ -72,9 +72,10 @@ def construct_race_table(Qs,Qr,race_set,t_way):
             table=table.append(pd.Series(t,index=table.columns),ignore_index=True)
     return table.drop('dummy',axis=1)
 
-def expand_table(Qr,race_set,table,t_way):
+def expand_table(Qr,Qs,race_set,table,t_way):
     print('Expanding table')
     for way in range(t_way,len(Qr[0])): #1列ずつ足していくためのループ
+        print(".",end='')
         new_event=Qr[0].iloc[way]
 
         if (len(race_set[Qr[0].iloc[way].ID]))>0: #raceがあるかどうか確認
@@ -83,7 +84,7 @@ def expand_table(Qr,race_set,table,t_way):
 
             pi=[]
             heading=table.columns
-            for i in tqdm(range(len(heading))):
+            for i in range(len(heading)):
                 pi.append(pd.DataFrame({heading[i]:[],new_event.ID:[]}))
                 heading2=pi[i].columns
                 for j in range(len(heading2)):              
@@ -102,7 +103,7 @@ def expand_table(Qr,race_set,table,t_way):
                 pi[i]=pi[i].reset_index(drop=True)
 
             table[new_event.ID]=''
-            for index in tqdm(range(len(table))):#tableのループ
+            for index in range(len(table)):#tableのループ
                 match_count_array=[]
                 for race_num in range(len(race_set[Qr[0].iloc[way].ID])+1): #raceの数だけループ
                     match_count_array.append(0)

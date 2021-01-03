@@ -6,7 +6,7 @@ import control_structure as cs
 def create_new_testcase(number,check_digit,Qr,Qs,table,race_set,Qr_unique,Qs_unique):
     r_last_index=len(Qr_unique)+1 #それぞれの新しいインデックスを付与するための変数→初期化
     s_last_index=len(Qs_unique)+1 #+1で新しいindexをそのまま付与
-    for number in tqdm(range(0,len(table))):
+    for number in range(0,len(table)):
         Qs.append(pd.DataFrame({}))
         Qr.append(pd.DataFrame({}))
         Qs[number+1]=Qs[0].copy()
@@ -39,57 +39,57 @@ def create_new_testcase(number,check_digit,Qr,Qs,table,race_set,Qr_unique,Qs_uni
 
                 #==========Qrの重複追加作業=================
 
-                for index,row in Qr[number+1].iterrows():
-                    results=cs.cstruct(Qr,Qs,Qr[number+1].iloc[index],[],check_digit,number)
-                    judge=False
-                    if results: #空だったらnot 
-                        for index2,row2 in Qr_unique.iterrows():
-                            if results==Qr_unique.at[index2,'cstruct']:
-                                new_index=index2
-                                judge=True
-                                break
-                        if not judge: #Falseだったら判定
-                            Qr[number+1].at[index,'ID']='r'+str(r_last_index)
-                            #Qr[number+1].at[index,'cstruct']=results
-                            r_last_index+=1
-                            temp=list(Qr[number+1].iloc[index])
-                            temp.append(results)
-                            temp=pd.Series(temp,index=Qr_unique.columns,name=len(Qr_unique))
-                            #temp=pd.DataFrame(,columns=Qr_unique.columns)
-                            #Qr_unique.append(temp,ignore_index=False)
-                            #pd.concat([Qr_unique,temp],axis=0)
-                            Qr_unique.loc[len(Qr_unique)]=temp
-                        else:
-                            Qr[number+1].iloc[index]=Qr_unique.iloc[new_index]
-                    else:
-                        pass
+        for index,row in Qr[number+1].iterrows():
+            results=cs.cstruct(Qr,Qs,Qr[number+1].iloc[index],[],check_digit,number)
+            judge=False
+            if results: #空だったらnot 
+                for index2,row2 in Qr_unique.iterrows():
+                    if results==Qr_unique.at[index2,'cstruct']:
+                        new_index=index2
+                        judge=True
+                        break
+                if not judge: #Falseだったら判定
+                    Qr[number+1].at[index,'ID']='r'+str(r_last_index)
+                    #Qr[number+1].at[index,'cstruct']=results
+                    r_last_index+=1
+                    temp=list(Qr[number+1].iloc[index])
+                    temp.append(results)
+                    temp=pd.Series(temp,index=Qr_unique.columns,name=len(Qr_unique))
+                    #temp=pd.DataFrame(,columns=Qr_unique.columns)
+                    #Qr_unique.append(temp,ignore_index=False)
+                    #pd.concat([Qr_unique,temp],axis=0)
+                    Qr_unique.loc[len(Qr_unique)]=temp
+                else:
+                    Qr[number+1].iloc[index]=Qr_unique.iloc[new_index]
+            else:
+                pass
 
-                #==========Qsの重複追加作業=================
+        #==========Qsの重複追加作業=================
 
 
-                for index,row in Qs[number+1].iterrows():
-                    results=cs.cstruct(Qr,Qs,Qs[number+1].iloc[index],[],check_digit,number)
-                    judge=False
-                    if results: #空だったらnot 
-                        for index2,row2 in Qs_unique.iterrows():
-                            if results==Qs_unique.at[index2,'cstruct']:
-                                new_index=index2
-                                judge=True
-                                break
-                        if not judge: #Falseだったら判定
-                            Qs[number+1].at[index,'ID']='s'+str(s_last_index)
-                            #Qr[number+1].at[index,'cstruct']=results
-                            s_last_index+=1
-                            temp=list(Qs[number+1].iloc[index])
-                            temp.append(results)
-                            temp=pd.Series(temp,index=Qs_unique.columns,name=len(Qs_unique))
-                            #temp=pd.DataFrame(,columns=Qr_unique.columns)
-                            #Qr_unique.append(temp,ignore_index=False)
-                            #pd.concat([Qr_unique,temp],axis=0)
-                            Qs_unique.loc[len(Qs_unique)]=temp
-                        else:
-                            Qs[number+1].iloc[index]=Qs_unique.iloc[new_index]
-                    else:
-                        pass
+        for index,row in Qs[number+1].iterrows():
+            results=cs.cstruct(Qr,Qs,Qs[number+1].iloc[index],[],check_digit,number)
+            judge=False
+            if results: #空だったらnot 
+                for index2,row2 in Qs_unique.iterrows():
+                    if results==Qs_unique.at[index2,'cstruct']:
+                        new_index=index2
+                        judge=True
+                        break
+                if not judge: #Falseだったら判定
+                    Qs[number+1].at[index,'ID']='s'+str(s_last_index)
+                    #Qr[number+1].at[index,'cstruct']=results
+                    s_last_index+=1
+                    temp=list(Qs[number+1].iloc[index])
+                    temp.append(results)
+                    temp=pd.Series(temp,index=Qs_unique.columns,name=len(Qs_unique))
+                    #temp=pd.DataFrame(,columns=Qr_unique.columns)
+                    #Qr_unique.append(temp,ignore_index=False)
+                    #pd.concat([Qr_unique,temp],axis=0)
+                    Qs_unique.loc[len(Qs_unique)]=temp
+                else:
+                    Qs[number+1].iloc[index]=Qs_unique.iloc[new_index]
+            else:
+                pass
 
     return {'recv':Qr,'send':Qs}
