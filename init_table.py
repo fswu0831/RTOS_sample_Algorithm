@@ -1,15 +1,17 @@
 import pandas as pd
 import control_structure as cs
 import numpy as np
+from tqdm import tqdm
 
 def init_main(Qr,Qs):
     delete_diff(Qr,Qs)
+    Qr=arrange_data(Qr,Qs)
     Qr[0]=init(Qr[0],'r')
     Qs[0]=init(Qs[0],'s')
     df_unique=append_unique(Qr,Qs)
     Qr_unique=df_unique['Qr']
     Qs_unique=df_unique['Qs']
-    Qr=arrange_data(Qr,Qs)
+    print('finish initialize')
     return {'Qr':Qr,'Qs':Qs,'Qr_unique':Qr_unique,'Qs_unique':Qs_unique}
 
 
@@ -47,13 +49,14 @@ def arrange_data(Qr,Qs):
         else: #一致しなかった場合
             port=Qs[0].iloc[i].Port
             df=Qr[0][i+1:]
-            if len(df)!=0:
+            if len(df)==0:
                 continue
             else:
                 new_index=np.arange(len(Qr[0]))
                 new_pair_index=df[df.Port==port].iloc[0].name
                 new_index[i]=new_pair_index
                 new_index[new_pair_index]=i
+                Qr[0]['new_index']=new_index
                 Qr[0]=Qr[0].set_index('new_index')
                 Qr[0].sort_index(inplace=True)
     return Qr

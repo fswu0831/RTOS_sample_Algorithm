@@ -6,17 +6,19 @@ import numpy as np
 import control_structure as cs
 from tqdm import tqdm
 
-def no_index(Qr,Qs,start,finish,t,event,R):
-    #if type(event)==int:
-    #    event=Qr[(Qr.ID==R[finish])].iloc[0]
+def no_index(Qr,Qs,Qs_unique,Qr_unique,start,finish,t,event,R):
+    if event.Event=='send':
+        table=Qs_unique
+    else:
+        table=Qr_unique
     for l in range(start,finish):
-        if t[l]>0 and R[l] in cs.cstruct(Qr,Qs,event,[],0,0):
+        if t[l]>0 and R[l] in table[table.ID==event.ID].iloc[0].cstruct:
             return True
         else:
             continue
     return False
 
-def construct_race_table(Qs,Qr,race_set,t_way):
+def construct_race_table(Qs,Qr,Qs_unique,Qr_unique,race_set,t_way):
     R=[] #create race_set
     D=[] #number of race_set
     heading=[] #{r1,r2,....r}
@@ -53,7 +55,7 @@ def construct_race_table(Qs,Qr,race_set,t_way):
         if t[i]==1: #just changed t[i] from 0 to 1
 
             for j in range(i+1,len(R)):
-                if t[j]!=-1 and (Qr[0][Qr[0].ID==R[i]].iloc[0].ID in cs.cstruct(Qr,Qs,Qr[0][Qr[0].ID==R[j]].iloc[0],[],0,0)):
+                if t[j]!=-1 and (Qr[0][Qr[0].ID==R[i]].iloc[0].ID in Qr_unique[Qr_unique.ID==Qr[0][Qr[0].ID==R[j]].iloc[0].ID].iloc[0].cstruct):
 
                     t[j]=-1
 
@@ -62,13 +64,13 @@ def construct_race_table(Qs,Qr,race_set,t_way):
                 t[j]=0 #just change t[j] from dj to 0
 
                 for k in range(j+1,len(R)):
-                    if t[k]==-1 and Qr[0][Qr[0].ID==R[j]].iloc[0].ID in cs.cstruct(Qr,Qs,Qr[0][Qr[0].ID==R[k]].iloc[0],[],0,0) and no_index(Qr,Qs,1,k,t,Qr[0][(Qr[0].ID==R[k])].iloc[0],R):
+                    if t[k]==-1 and Qr[0][Qr[0].ID==R[j]].iloc[0].ID in Qr_unique[Qr_unique.ID==Qr[0][Qr[0].ID==R[k]].iloc[0].ID].iloc[0].ID and no_index(Qr,Qs,Qs_unique,Qr_unique,1,k,t,Qr[0][(Qr[0].ID==R[k])].iloc[0],R):
                         t[k]=0
         #let s be the t[i] sending event in race_set(ri)
         s= race_set[R[i]][int(t[i])-1] 
 
 
-        if no_index(Qr,Qs,1,len(R)-1,t,Qs[0][(Qs[0].ID==s)].iloc[0],R)==False:
+        if no_index(Qr,Qs,Qs_unique,Qr_unique,1,len(R)-1,t,Qs[0][(Qs[0].ID==s)].iloc[0],R)==False:
             table=table.append(pd.Series(t,index=table.columns),ignore_index=True)
     return table.drop('dummy',axis=1)
 
