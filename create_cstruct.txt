@@ -1,7 +1,0 @@
-c-struct のアルゴリズム
-1.S[i]の発生したスレッドをs_threadとする
-2.S[i]のindexをs_index
-//停止条件s_index=1処理終了
-3.thread=s_thread　&& index=s_index-1 のシーケンスをsecuenceとする
- 3.1 if secuence[event]=send: secuence[event]を新たtなs[i]として1へ
- 3.2 if else: rec のペアを新たなs[i]として1へ
