@@ -32,9 +32,9 @@ def init(table,string):
 def append_unique(Qr,Qs):
     r_list=[]
     s_list=[]
-    for i in range(0,len(Qr[0])):
-        r_list.append(cs.cstruct(Qr,Qs,Qr[0].iloc[i],[],0,0))
-        s_list.append(cs.cstruct(Qr,Qs,Qs[0].iloc[i],[],0,0))
+    for i in tqdm(range(0,len(Qr[0]))):
+        s_list.append(cs.cstruct_init(Qr,Qs,Qs[0].iloc[i],s_list))
+        r_list.append(cs.cstruct_init(Qr,Qs,Qr[0].iloc[i],s_list))
     Qr_unique=Qr[0].copy()
     Qs_unique=Qs[0].copy()
     Qr_unique.insert(len(Qr_unique.columns),'cstruct',r_list)

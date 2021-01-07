@@ -140,7 +140,7 @@ def expand_table(Qr,Qs,race_set,table,t_way):
                             #一個前に値がなければnot-1
                             for l in range(k,0,-1):
                                 if last_data[l-1]==1:
-                                    if Qr[0][Qr[0].ID==list(table.columns)[l-1]].iloc[0].ID in cs.cstruct(Qr,Qs,Qr[0][Qr[0].ID==list(table.columns)[k]].iloc[0],[],0,0):
+                                    if Qr[0][Qr[0].ID==list(table.columns)[l-1]].iloc[0].ID in cs.cstruct(Qr,Qs,Qr[0][Qr[0].ID==list(table.columns)[k]].iloc[0],[],0,0,Qs_unique):
                                         table.at[len(table)-1,list(table.columns)[k]]=-1
                                         break
                                         #制御構造

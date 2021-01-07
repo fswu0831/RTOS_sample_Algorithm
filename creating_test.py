@@ -44,7 +44,7 @@ def create_new_testcase(number,check_digit,Qr,Qs,table,race_set,Qr_unique,Qs_uni
                 #==========Qrの重複追加作業=================
 
         for index,row in Qr[number+1].iterrows():
-            results=cs.cstruct(Qr,Qs,Qr[number+1].iloc[index],[],check_digit,number)
+            results=cs.cstruct(Qr,Qs,Qr[number+1].iloc[index],[],check_digit,number,Qs_unique)
             judge=False
             if results: #空だったらnot 
                 for index2,row2 in Qr_unique.iterrows():
