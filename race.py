@@ -39,7 +39,6 @@ def creating_race_set(Qr,Qs,Qs_unique,race_set,combination):
 
     # sでループ
     for i in range(len(Qs[0])):
-        #sでループ
 
         number=Qs[0].iloc[i].name
         ID=Qs[0].iloc[i].ID

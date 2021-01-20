@@ -57,6 +57,7 @@ def create_new_testcase(number,check_digit,Qr,Qs,table,race_set,Qr_unique,Qs_uni
                     #Qr[number+1].at[index,'cstruct']=results
                     r_last_index+=1
                     temp=list(Qr[number+1].iloc[index])
+                    temp=temp[:5]
                     temp.append(results)
                     temp=pd.Series(temp,index=Qr_unique.columns,name=len(Qr_unique))
                     #temp=pd.DataFrame(,columns=Qr_unique.columns)

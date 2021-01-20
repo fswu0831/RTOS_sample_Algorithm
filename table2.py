@@ -75,9 +75,8 @@ def construct_race_table(Qs,Qr,Qs_unique,Qr_unique,race_set,t_way):
     return table.drop('dummy',axis=1)
 
 def expand_table(Qr,Qs,race_set,table,t_way,Qs_unique):
-    print('')
     print('Expanding table')
-    for way in range(t_way,len(Qr[0])): #1列ずつ足していくためのループ
+    for way in tqdm(range(t_way,len(Qr[0]))): #1列ずつ足していくためのループ
         print(".",end='')
         new_event=Qr[0].iloc[way]
 
@@ -87,7 +86,7 @@ def expand_table(Qr,Qs,race_set,table,t_way,Qs_unique):
 
             pi=[]
             heading=table.columns
-            for i in range(len(heading)):
+            for i in tqdm(range(len(heading))):
                 pi.append(pd.DataFrame({heading[i]:[],new_event.ID:[]}))
                 heading2=pi[i].columns
                 for j in range(len(heading2)):              
@@ -99,15 +98,15 @@ def expand_table(Qr,Qs,race_set,table,t_way,Qs_unique):
                         for j2 in range(len(race_set[heading[i2]])+1):
                             parameters_dict[heading[i2]].append(j2)
                     parameters=OrderedDict(parameters_dict)
-                    for k, pairs in enumerate(AllPairs(parameters)):
+                    for k, pairs in tqdm(enumerate(AllPairs(parameters))):
                         new_row[len(new_row)]=pairs[j]
                     pi[i][heading2[j]]=new_row
                 pi[i]=pi[i][pi[i].sum(axis=1)!=0]
                 pi[i]=pi[i].reset_index(drop=True)
 
             table[new_event.ID]=''
-            for index in range(len(table)):#tableのループ
-                print(".",end='')
+            print('横方向')
+            for index in tqdm(range(len(table))):#tableのループ
                 match_count_array=[]
                 for race_num in range(len(race_set[Qr[0].iloc[way].ID])+1): #raceの数だけループ
                     match_count_array.append(0)
@@ -130,6 +129,7 @@ def expand_table(Qr,Qs,race_set,table,t_way,Qs_unique):
                             pi[i].drop(j,inplace=True)
                     pi[i]=pi[i].reset_index(drop=True)
             ## 縦方向の拡張
+            print('縦方向')
             for i in range(len(pi)):
                 for j in range(len(pi[i])):
                     table=table.append(pi[i].iloc[j])# 最終行を挿入

@@ -43,10 +43,12 @@ def cstruct_init(Qr,Qs,event,s_list):
         if temp['Event']=='send':
             results.append(temp['ID'])
             send=temp
-            results.extend(s_list[send.name])
+            if len(s_list)>send.name: 
+                results.extend(s_list[send.name])
         else:
             results.append(temp['ID'])
             send=Qs[0].iloc[temp.name]
             results.append(send['ID'])
-            results.extend(s_list[send.name])
+            if len(s_list)>send.name: 
+                results.extend(s_list[send.name])
     return list(set(results))
