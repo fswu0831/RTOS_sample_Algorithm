@@ -1,6 +1,19 @@
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
 
+def evaluate(Qr,Qs,race_set):
+    print('Evaluating')
+    Q=pd.concat([Qs[0],Qr[0]]).sort_index()
+    V=Qr[0].Port.unique()
+    T=np.sort(Q.Thread.unique())
+    V_total_number=len(V)
+    T_total_number=len(T)
+    race_num=RACE(race_set)
+    svqr=SVQR(Qr,Qs)
+    def_use=Def_Use(Qr,Qs)
+    plnv=Plnv(Qr,Qs)
+    return {'SYN':len(Qr[0]),'Task':T_total_number,'TestCase':len(Qr),'Buffer':V_total_number,'SVAR':div(svqr),'Def-Use':div(def_use),'Plnv':div(plnv),'Race':race_num}
 
 def factorial(n):
     sum=1
@@ -10,6 +23,12 @@ def factorial(n):
 
 def combination(n,k):
     return int(factorial(n)/(factorial(n-k)*factorial(k)))
+
+def RACE(race_set):
+    sum=0
+    for key in race_set.keys():
+        sum+=len(race_set[key])
+    return sum
 
 def SVQR(Qr,Qs):
     #総数の計算
@@ -146,15 +165,3 @@ def Plnv(Qr,Qs):
 def div(dic):
     return dic['number']/dic['total_number']
 
-def evaluate(Qr,Qs):
-    Q=pd.concat([Qs[0],Qr[0]]).sort_index()
-    V=Qr[0].Port.unique()
-    T=np.sort(Q.Thread.unique())
-    V_total_number=len(V)
-    T_total_number=len(T)
-    
-    svqr=SVQR(Qr,Qs)
-    def_use=Def_Use(Qr,Qs)
-    plnv=Plnv(Qr,Qs)
-    
-    return {'Task':T_total_number,'TestCase':len(Qr),'Buffer':V_total_number,'SVAR':div(svqr),'Def-Use':div(def_use),'Plnv':div(plnv)}
