@@ -21,11 +21,19 @@ pip install display
 ## 実行方法
 
 1.分析用のデータを同じディレクトリに格納
+
 2.設定
+
   2.1 `path`にインポートするディレクトリを設定
+  
   2.2 `results_path`にエクスポートするディレクトリを設定
+  
   2.3 `RESULTS_FILE_NAME`に結果を出力するファイル名を入力
+  
 3.`Jupyter Notebook`を使用する場合
+
 `pro_env.ipynb`を実行
+
 4. `VScode`を使用する場合
+
  `main.py`を実行
